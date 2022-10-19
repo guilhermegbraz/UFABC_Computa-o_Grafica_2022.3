@@ -110,8 +110,8 @@ compiler_rcc_clean:
 	-$(DEL_FILE) release\qrc_resources.cpp
 release/qrc_resources.cpp: ../Aula/resources.qrc \
 		E:/QT/6.3.2/mingw_64/bin/rcc.exe \
-		../Aula/fshader1.frag \
-		../Aula/vshader1.frag
+		../Aula/vshader1.glsl \
+		../Aula/fshader1.glsl
 	E:\QT\6.3.2\mingw_64\bin\rcc.exe -name resources --no-zstd ..\Aula\resources.qrc -o release\qrc_resources.cpp
 
 compiler_moc_predefs_make_all: release/moc_predefs.h
@@ -908,7 +908,68 @@ release/mainwindow.o: ../Aula/mainwindow.cpp ../Aula/mainwindow.h \
 		E:/QT/6.3.2/mingw_64/include/QtGui/QTransform \
 		E:/QT/6.3.2/mingw_64/include/QtCore/qnativeinterface.h \
 		E:/QT/6.3.2/mingw_64/include/QtWidgets/qtabwidget.h \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/QVariant \
+		E:/QT/6.3.2/mingw_64/include/QtWidgets/QApplication \
+		E:/QT/6.3.2/mingw_64/include/QtWidgets/qapplication.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qcoreapplication.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qeventloop.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qcoreapplication_platform.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qfuture.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qfutureinterface.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qmutex.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qresultstore.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qfuture_impl.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qthreadpool.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qthread.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qdeadlinetimer.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qelapsedtimer.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qrunnable.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qexception.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qpromise.h \
+		E:/QT/6.3.2/mingw_64/include/QtGui/qguiapplication.h \
+		E:/QT/6.3.2/mingw_64/include/QtGui/qinputmethod.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qlocale.h \
+		E:/QT/6.3.2/mingw_64/include/QtGui/qguiapplication_platform.h \
+		E:/QT/6.3.2/mingw_64/include/QtWidgets/QCheckBox \
+		E:/QT/6.3.2/mingw_64/include/QtWidgets/qcheckbox.h \
+		E:/QT/6.3.2/mingw_64/include/QtWidgets/qabstractbutton.h \
+		E:/QT/6.3.2/mingw_64/include/QtWidgets/QMenuBar \
+		E:/QT/6.3.2/mingw_64/include/QtWidgets/qmenubar.h \
+		E:/QT/6.3.2/mingw_64/include/QtWidgets/qmenu.h \
+		E:/QT/6.3.2/mingw_64/include/QtWidgets/QStatusBar \
+		E:/QT/6.3.2/mingw_64/include/QtWidgets/qstatusbar.h \
+		E:/QT/6.3.2/mingw_64/include/QtWidgets/QWidget \
+		../Aula/openglwidget.h \
+		E:/QT/6.3.2/mingw_64/include/QtOpenGLWidgets/QOpenGLWidget \
+		E:/QT/6.3.2/mingw_64/include/QtOpenGLWidgets/qopenglwidget.h \
+		E:/QT/6.3.2/mingw_64/include/QtOpenGLWidgets/qtopenglwidgetsglobal.h \
+		E:/QT/6.3.2/mingw_64/include/QtOpenGLWidgets/qtopenglwidgetsexports.h \
+		E:/QT/6.3.2/mingw_64/include/QtGui/QSurfaceFormat \
+		E:/QT/6.3.2/mingw_64/include/QtGui/qsurfaceformat.h \
+		E:/QT/6.3.2/mingw_64/include/QtGui/qopengl.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qt_windows.h \
+		E:/QT/6.3.2/mingw_64/include/QtGui/qopengles2ext.h \
+		E:/QT/6.3.2/mingw_64/include/QtGui/qopenglext.h \
+		E:/QT/6.3.2/mingw_64/include/QtOpenGL/QOpenGLFunctions_4_0_Core \
+		E:/QT/6.3.2/mingw_64/include/QtOpenGL/qopenglfunctions_4_0_core.h \
+		E:/QT/6.3.2/mingw_64/include/QtOpenGL/qtopenglglobal.h \
+		E:/QT/6.3.2/mingw_64/include/QtOpenGL/qtopenglexports.h \
+		E:/QT/6.3.2/mingw_64/include/QtOpenGL/QOpenGLVersionProfile \
+		E:/QT/6.3.2/mingw_64/include/QtOpenGL/qopenglversionprofile.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/QPair \
+		E:/QT/6.3.2/mingw_64/include/QtOpenGL/QOpenGLVersionFunctions \
+		E:/QT/6.3.2/mingw_64/include/QtOpenGL/qopenglversionfunctions.h \
+		E:/QT/6.3.2/mingw_64/include/QtGui/qopenglcontext.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/QScopedPointer \
+		E:/QT/6.3.2/mingw_64/include/QtGui/qopenglcontext_platform.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/QTimer \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qtimer.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qbasictimer.h \
+		E:/QT/6.3.2/mingw_64/include/QtGui/QVector4D \
+		E:/QT/6.3.2/mingw_64/include/QtCore/QFile \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qfile.h \
+		E:/QT/6.3.2/mingw_64/include/QtCore/qfiledevice.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o release\mainwindow.o ..\Aula\mainwindow.cpp
 
 release/openglwidget.o: ../Aula/openglwidget.cpp ../Aula/openglwidget.h \
