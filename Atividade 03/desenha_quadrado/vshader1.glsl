@@ -12,9 +12,14 @@ void main(void)
 {
     gl_Position = vPosition;
 
-    if(solid_color == 1)
+    if(solid_color == 1){
         v2fcolor = vColor;
-    else
+    }
+
+
+    else{
         v2fcolor = vColors;
+    }
+
 
 }

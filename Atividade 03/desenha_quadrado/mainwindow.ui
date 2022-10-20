@@ -41,7 +41,7 @@
       <string>Dark Mode</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="comboBox">
+    <widget class="QComboBox" name="comboBoxDayNight">
      <item>
       <property name="text">
        <string>dia</string>
@@ -74,6 +74,7 @@
    <header>openglwidget.h</header>
    <slots>
     <slot>toggleDarkMode(bool)</slot>
+    <slot>changeDayNight(int)</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -92,6 +93,22 @@
     <hint type="destinationlabel">
      <x>345</x>
      <y>276</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comboBoxDayNight</sender>
+   <signal>activated(int)</signal>
+   <receiver>openGLWidget</receiver>
+   <slot>changeDayNight(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>134</x>
+     <y>562</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>285</y>
     </hint>
    </hints>
   </connection>

@@ -15,14 +15,13 @@ public:
     explicit OpenGLWidget(QWidget *parent = nullptr);
     ~OpenGLWidget();
 
-    GLuint vboVertices{0};
-    GLuint vboColors{0};
-    GLuint eboIndices{0};
-    GLuint vao{0};
 
-    std::vector<QVector4D> vertices;
-    std::vector<QVector4D> colors;
-    std::vector<GLuint> indices;
+    GLuint vboGround{0};
+    GLuint vboColorsGround{0};
+    GLuint eboIndicesGround{0};
+    GLuint vaoGround{0};
+
+
     GLuint shaderProgram{0};
     void createVBOs();
     void createShaders();
