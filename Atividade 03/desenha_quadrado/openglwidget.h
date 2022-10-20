@@ -27,16 +27,38 @@ public:
     void drawnSun();
     void drawnMoon();
     void drawnGround();
+    void drawnFlaps();
+    void drawnWindow();
 
     GLuint vboVerticesRectangle{0};
     GLuint eboIndicesRectangle{0};
     GLuint vaoRectangle{0};
+
+    GLuint vboVerticesFlap1{0};
+    GLuint eboIndicesFlap1{0};
+    GLuint vaoFlap1{0};
+
+    GLuint vboVerticesFlap2{0};
+    GLuint eboIndicesFlap2{0};
+    GLuint vaoFlap2{0};
+
+    GLuint vaoFlapCentro{0};
+    GLuint vboVerticesFlapCentro{0};
+
+    GLuint vboVerticesTopo{0};
+    GLuint eboIndicesTopo{0};
+    GLuint vaoTopo{0};
 
     GLuint vboGround{0};
     GLuint vboColorsGround{0};
     GLuint eboIndicesGround{0};
     GLuint vaoGround{0};
 
+    GLuint vaoJanelaVidro{0};
+    GLuint vboVerticesJanelaVidro{0};
+
+    GLuint vaoJanelaBorda{0};
+    GLuint vboVerticesJanelaBorda{0};
 
 
     GLuint vaoSun{0};
