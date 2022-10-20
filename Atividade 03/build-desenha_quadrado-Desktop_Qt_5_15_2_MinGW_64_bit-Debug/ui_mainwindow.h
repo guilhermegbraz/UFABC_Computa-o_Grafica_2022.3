@@ -29,7 +29,7 @@ public:
     OpenGLWidget *openGLWidget;
     QSplitter *splitter;
     QCheckBox *checkBoxDarkMode;
-    QComboBox *comboBox;
+    QComboBox *comboBoxDayNight;
     QMenuBar *menubar;
     QStatusBar *statusbar;
 
@@ -50,11 +50,11 @@ public:
         checkBoxDarkMode = new QCheckBox(splitter);
         checkBoxDarkMode->setObjectName(QString::fromUtf8("checkBoxDarkMode"));
         splitter->addWidget(checkBoxDarkMode);
-        comboBox = new QComboBox(splitter);
-        comboBox->addItem(QString());
-        comboBox->addItem(QString());
-        comboBox->setObjectName(QString::fromUtf8("comboBox"));
-        splitter->addWidget(comboBox);
+        comboBoxDayNight = new QComboBox(splitter);
+        comboBoxDayNight->addItem(QString());
+        comboBoxDayNight->addItem(QString());
+        comboBoxDayNight->setObjectName(QString::fromUtf8("comboBoxDayNight"));
+        splitter->addWidget(comboBoxDayNight);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -66,6 +66,7 @@ public:
 
         retranslateUi(MainWindow);
         QObject::connect(checkBoxDarkMode, SIGNAL(clicked(bool)), openGLWidget, SLOT(toggleDarkMode(bool)));
+        QObject::connect(comboBoxDayNight, SIGNAL(activated(int)), openGLWidget, SLOT(changeDayNight(int)));
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -74,8 +75,8 @@ public:
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         checkBoxDarkMode->setText(QCoreApplication::translate("MainWindow", "Dark Mode", nullptr));
-        comboBox->setItemText(0, QCoreApplication::translate("MainWindow", "dia", nullptr));
-        comboBox->setItemText(1, QCoreApplication::translate("MainWindow", "noite", nullptr));
+        comboBoxDayNight->setItemText(0, QCoreApplication::translate("MainWindow", "dia", nullptr));
+        comboBoxDayNight->setItemText(1, QCoreApplication::translate("MainWindow", "noite", nullptr));
 
     } // retranslateUi
 
