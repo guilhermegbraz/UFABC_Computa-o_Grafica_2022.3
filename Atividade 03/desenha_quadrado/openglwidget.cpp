@@ -48,52 +48,84 @@ void OpenGLWidget::paintGL()
             drawnSun();
       }
      drawnGround();
-     drawnSolidRectangle();
+     DrawnRocket(vaoRectangle, vboVerticesRectangle, vboColorsRectangle, eboIndicesRectangle);
      drawnFlaps();
      drawnWindow();
 }
 
-void OpenGLWidget :: drawnSolidRectangle() {
+void OpenGLWidget::toggleDarkMode(bool changeToDarkMode)
+{
     makeCurrent();
-
-    glUseProgram(shaderProgram);
-
-    auto locColor{glGetUniformLocation(shaderProgram, "vColor")};
-    glUniform4f(locColor, 0.827, 0.827, 0.827, 1);
-
-    auto locSolidColor{glGetUniformLocation(shaderProgram, "solid_color")};
-    glUniform1i(locSolidColor, 1);
-
-    glBindVertexArray(vaoRectangle);
-
-    glDrawArrays(GL_POLYGON,0, 6);
+    if(changeToDarkMode){
+        isNight = true;
+        glClearColor(0.145,0.157,0.314,1);
+    }
+    else{
+        isNight = false;
+        glClearColor(0.2,0.671,0.976,1);
+    }
+    update();
 }
 
-void OpenGLWidget :: drawnFlaps() {
+void OpenGLWidget::DrawnRocket(GLuint & vao, GLuint & vbo, GLuint & vboColors, GLuint & eboIndices) {
+
+    std::vector<QVector4D> vertices;
+    std::vector<QVector4D> colors;
+    std::vector<GLuint> indices;
+//glUniform4f(locColor, 0.827, 0.827, 0.827, 1);
+
+    vertices.resize(6);
+    colors.resize(6);
+    indices.resize(6);
+
+///////CORPO DO FOGUETE///////////////////////
+    vertices[0] = QVector4D(posx, posy, 0, 1);
+    vertices[1] = QVector4D(posx, posy - altura , 0, 1);
+    vertices[2] = QVector4D(posx + largura/4, posy - altura - altura/20, 0, 1);
+    vertices[3] = QVector4D(posx + 3 * largura/4, posy-altura - altura/20, 0, 1);
+    vertices[4] = QVector4D( posx + largura, posy - altura , 0, 1);
+    vertices[5] = QVector4D( posx + largura, posy , 0, 1);
+
+    colors[0] = QVector4D(0.255, 0.255, 0.255, 1);
+    colors[1] = QVector4D(0.255, 0.255, 0.255, 1);
+    colors[2] = QVector4D(0.255, 0.255, 0.255, 1);
+    colors[3] = QVector4D(0.827, 0.827, 0.827, 1);
+    colors[4] = QVector4D(0.827, 0.827, 0.827, 1);
+    colors[5] = QVector4D(0.827, 0.827, 0.827, 1);
+
+    indices[0] = 0; indices[1] = 1; indices[2] = 2;
+    indices[3] = 3; indices[4] = 4; indices[5] = 5;
+
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(QVector4D), vertices.data(), GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,0, nullptr);
+    glEnableVertexAttribArray(0);
+
+    glVertexAttribPointer(0,4,GL_FLOAT,GL_FALSE,0,nullptr);
+    glEnableVertexAttribArray(0);
+    glGenBuffers (1, &vboColors);
+    glBindBuffer (GL_ARRAY_BUFFER,vboColors);
+    glBufferData (GL_ARRAY_BUFFER,colors.size()*sizeof(QVector4D),colors.data(),
+                  GL_STATIC_DRAW);
+
+    glVertexAttribPointer (1, 4, GL_FLOAT , GL_FALSE , 0, nullptr);
+    glEnableVertexAttribArray (1);
+    glGenBuffers (1, &eboIndices);
+    glBindBuffer (GL_ELEMENT_ARRAY_BUFFER , eboIndices);
+    glBufferData (GL_ELEMENT_ARRAY_BUFFER , indices.size() * sizeof (GLuint), indices.data() ,
+                  GL_STATIC_DRAW);
+
     makeCurrent();
-
     glUseProgram(shaderProgram);
-
-    auto locColor{glGetUniformLocation(shaderProgram, "vColor")};
-    glUniform4f(locColor, 0.927, 0.001, 0.002, 1);
-
     auto locSolidColor{glGetUniformLocation(shaderProgram, "solid_color")};
-    glUniform1i(locSolidColor, 1);
+    glUniform1i(locSolidColor, 0);
 
-    glBindVertexArray(vaoFlap1);
-
-    glDrawArrays(GL_TRIANGLE_FAN,0, 3);
-
-    glBindVertexArray(vaoFlap2);
-
-    glDrawArrays(GL_TRIANGLE_FAN,0, 3);
-
-    glBindVertexArray(vaoTopo);
-
-    glDrawArrays(GL_TRIANGLE_FAN,0, 3);
-
-    glBindVertexArray(vaoFlapCentro);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, steps);
+    glBindVertexArray(vaoRectangle);
+    glDrawArrays(GL_POLYGON,0, 6);
 }
 
 void OpenGLWidget::drawnGround(){
@@ -117,8 +149,10 @@ void OpenGLWidget::drawnGround(){
     // Topology of the mesh ( square )
     indices[0] = 0; indices[1] = 1; indices[2] = 2;
     indices[3] = 2; indices[4] = 3; indices[5] = 0;
+
     glGenVertexArrays(1,&vaoGround);
     glBindVertexArray(vaoGround);
+
     glGenBuffers(1,&vboGround);
     glBindBuffer(GL_ARRAY_BUFFER,vboGround);
     glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(QVector4D),vertices.data(),
@@ -141,10 +175,35 @@ void OpenGLWidget::drawnGround(){
     makeCurrent();
     glUseProgram(shaderProgram);
     auto locSolidColor{glGetUniformLocation(shaderProgram, "solid_color")};
-    glUniform1i(locSolidColor, 53);
+    glUniform1i(locSolidColor, 0);
 
     glBindVertexArray(vaoGround);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_POLYGON,0, 4);
+}
+
+
+void OpenGLWidget :: drawnFlaps() {
+    makeCurrent();
+
+    glUseProgram(shaderProgram);
+
+    auto locColor{glGetUniformLocation(shaderProgram, "vColor")};
+    glUniform4f(locColor, 0.927, 0.001, 0.002, 1);
+
+    auto locSolidColor{glGetUniformLocation(shaderProgram, "solid_color")};
+    glUniform1i(locSolidColor, 1);
+
+    glBindVertexArray(vaoFlap1);
+    glDrawArrays(GL_POLYGON,0, 3);
+
+    glBindVertexArray(vaoFlap2);
+    glDrawArrays(GL_TRIANGLE_FAN,0, 3);
+
+    glBindVertexArray(vaoTopo);
+    glDrawArrays(GL_TRIANGLE_FAN,0, 3);
+
+    glBindVertexArray(vaoFlapCentro);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, steps);
 }
 
 
@@ -184,261 +243,98 @@ void OpenGLWidget:: drawnWindow(){
 }
 
 
-
 void OpenGLWidget:: drawnMoon(){
-
-    glGenVertexArrays(1, &vaoMoon);
-    glBindVertexArray(vaoMoon);
-
-    std::vector<QVector4D> verticesMoon;
-    verticesMoon.resize(steps);
-    for(unsigned int  i{0}; i < steps; i++){
-        float os[2] = {0.7, 0.62};
-        float r[2] = {0.12, 0.18};
-        verticesMoon[i] = QVector4D(os[0] + r[0]*sin(i*(M_PI/180)),
-                os[1] + r[1]*cos(i*(M_PI/180)), 0, 1);
-    }
-
-
-    glGenBuffers(1, &vboVerticesMoon);
-    glBindBuffer(GL_ARRAY_BUFFER, vboVerticesMoon);
-    glBufferData(GL_ARRAY_BUFFER, verticesMoon.size()*sizeof(QVector4D), verticesMoon.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,0, nullptr);
-    glEnableVertexAttribArray(0);
 
     makeCurrent();
     glUseProgram(shaderProgram);
+
     auto locColor{glGetUniformLocation(shaderProgram, "vColor")};
     glUniform4f(locColor, 0.976, 0.943, 1, 1);
+
     auto locSolidColor{glGetUniformLocation(shaderProgram, "solid_color")};
     glUniform1i(locSolidColor, 1);
+
+
     glBindVertexArray(vaoMoon);
     glDrawArrays(GL_TRIANGLE_FAN, 0, steps);
 }
 
-void OpenGLWidget::changeDayNight(int response){
-    makeCurrent();
-    if(response == 0) {
 
-        backgroundColor[0] = 0.2;
-        backgroundColor[1] = 0.671;
-        backgroundColor[2] = 0.976;
-    } else{
-
-        backgroundColor[0] = 0.145;
-        backgroundColor[1] = 0.157;
-        backgroundColor[2] = 0.314;
+std::vector<QVector4D> OpenGLWidget:: createCircle(float posX, float posY, float raioX, float raioY){
+    std::vector<QVector4D> verticesCircle;
+    verticesCircle.resize(steps);
+    for(unsigned int  i{0}; i < steps; i++){
+        float os[2] = {posX, posY};
+        float r[2] = {raioX, raioY};
+        verticesCircle[i] = QVector4D(os[0] + r[0]*sin(i*(M_PI/180)),
+                os[1] + r[1]*cos(i*(M_PI/180)), 0, 1);
     }
-
-    glClearColor(backgroundColor[0],backgroundColor[1],backgroundColor[2],1);
-    update();
+    return verticesCircle;
 }
 
-void OpenGLWidget::toggleDarkMode(bool changeToDarkMode)
-{
-    makeCurrent();
-    if(changeToDarkMode){
-        isNight = true;
-        glClearColor(0.145,0.157,0.314,1);
-    }
-    else{
-        isNight = false;
-        glClearColor(0.2,0.671,0.976,1);
-    }
-    update();
+void OpenGLWidget:: createPositionVBO(GLuint & vao, GLuint & vbo, std::vector<QVector4D> vertices ) {
+    glGenVertexArrays(1, &vao);
+    glBindVertexArray(vao);
+
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(QVector4D), vertices.data(), GL_STATIC_DRAW);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,0, nullptr);
+    glEnableVertexAttribArray(0);
 }
-
-
 
 void OpenGLWidget:: createVBOs() {
     makeCurrent();
     destroyVBOs();
 
-    std::vector<QVector4D> vertices;
-    std::vector<GLuint> indices;
-
-    vertices.resize(6);
-    indices.resize(6);
-
-    float posx{-0.8f};
-    float posy{0.3f};
-
-    float largura{0.15f};
-    float altura{0.95};
-///////CORPO DO FOGUETE///////////////////////
-    vertices[0] = QVector4D(posx, posy, 0, 1);
-    vertices[1] = QVector4D(posx, posy - altura , 0, 1);
-    vertices[2] = QVector4D(posx + largura/4, posy - altura - altura/20, 0, 1);
-    vertices[3] = QVector4D(posx + 3 * largura/4, posy-altura - altura/20, 0, 1);
-    vertices[4] = QVector4D( posx + largura, posy - altura , 0, 1);
-    vertices[5] = QVector4D( posx + largura, posy , 0, 1);
-
-    glGenVertexArrays(1, &vaoRectangle);
-    glBindVertexArray(vaoRectangle);
-
-    glGenBuffers(1, &vboVerticesRectangle);
-    glBindBuffer(GL_ARRAY_BUFFER, vboVerticesRectangle);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(QVector4D), vertices.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,0, nullptr);
-    glEnableVertexAttribArray(0);
-
 ///////FLAPS////////////////////////////////////////////////////////////////////////////////////////
-    vertices.resize(3);
-    indices.resize(3);
+        vertices.resize(3);
+        indices.resize(3);
 
-    vertices[0] = QVector4D(posx, posy - altura + 0.25 , 0, 1);
-    vertices[1] = QVector4D( posx, posy - altura+0.05 , 0, 1);
-    vertices[2] = QVector4D( posx - largura/1.8, posy - altura , 0, 1);
+        vertices[0] = QVector4D(posx, posy - altura + 0.25 , 0, 1);
+        vertices[1] = QVector4D( posx, posy - altura+0.05 , 0, 1);
+        vertices[2] = QVector4D( posx - largura/1.8, posy - altura , 0, 1);
 
-    indices[0] = 0; indices[1] = 1; indices[2] = 2;
+        createPositionVBO(vaoFlap1, vboVerticesFlap1, vertices);
 
-    glGenVertexArrays(1, &vaoFlap1);
-    glBindVertexArray(vaoFlap1);
+        vertices[0] = QVector4D(posx + largura, posy - altura + 0.25 , 0, 1);
+        vertices[1] = QVector4D( posx+ largura, posy - altura+0.05 , 0, 1);
+        vertices[2] = QVector4D( posx + largura + largura/1.8, posy - altura , 0, 1);
 
-    glGenBuffers(1, &vboVerticesFlap1);
-    glBindBuffer(GL_ARRAY_BUFFER, vboVerticesFlap1);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(QVector4D), vertices.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,0, nullptr);
-    glEnableVertexAttribArray(0);
+        createPositionVBO(vaoFlap2, vboVerticesFlap2, vertices);
 
-    glGenBuffers(1, &eboIndicesFlap1);
-    glBindBuffer(GL_ARRAY_BUFFER, eboIndicesFlap1);
-    glBufferData(GL_ARRAY_BUFFER, indices.size()*sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
-
-    vertices[0] = QVector4D(posx + largura, posy - altura + 0.25 , 0, 1);
-    vertices[1] = QVector4D( posx+ largura, posy - altura+0.05 , 0, 1);
-    vertices[2] = QVector4D( posx + largura + largura/1.8, posy - altura , 0, 1);
-
-    glGenVertexArrays(1, &vaoFlap2);
-    glBindVertexArray(vaoFlap2);
-
-    glGenBuffers(1, &vboVerticesFlap2);
-    glBindBuffer(GL_ARRAY_BUFFER, vboVerticesFlap2);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(QVector4D), vertices.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,0, nullptr);
-    glEnableVertexAttribArray(0);
-
-    glGenBuffers(1, &eboIndicesFlap2);
-    glBindBuffer(GL_ARRAY_BUFFER, eboIndicesFlap2);
-    glBufferData(GL_ARRAY_BUFFER, indices.size()*sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
     //////////////////////////////topo/////////////////////////////////////////////////////////////
     vertices.resize(3);
-    indices.resize(3);
 
     vertices[0] = QVector4D(posx, posy, 0, 1);
     vertices[1] = QVector4D( posx + largura, posy, 0, 1);
     vertices[2] = QVector4D( posx + largura/2, posy + (altura/4) , 0, 1);
 
-    indices[0] = 0; indices[1] = 1; indices[2] = 2;
+    createPositionVBO(vaoTopo, vboVerticesTopo, vertices);// topo do foguete
 
-    glGenVertexArrays(1, &vaoTopo);
-    glBindVertexArray(vaoTopo);
 
-    glGenBuffers(1, &vboVerticesTopo);
-    glBindBuffer(GL_ARRAY_BUFFER, vboVerticesTopo);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(QVector4D), vertices.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,0, nullptr);
-    glEnableVertexAttribArray(0);
-
-    glGenBuffers(1, &eboIndicesTopo);
-    glBindBuffer(GL_ARRAY_BUFFER, eboIndicesTopo);
-    glBufferData(GL_ARRAY_BUFFER, indices.size()*sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
     /////////////////////////////JANELA/////////////////////////////////////////////////////////////
-    glGenVertexArrays(1, &vaoJanelaVidro);
-    glBindVertexArray(vaoJanelaVidro);
 
-    std::vector<QVector4D> verticesJanelaVidro;
-    verticesJanelaVidro.resize(steps);
-    for(unsigned int  i{0}; i < steps; i++){
-        float os[2] = {posx + largura/2, posy - (altura/4)};
-        float r[2] = {largura/3, largura/2};
-        verticesJanelaVidro[i] = QVector4D(os[0] + r[0]*sin(i*(M_PI/180)),
-                os[1] + r[1]*cos(i*(M_PI/180)), 0, 1);
-    }
 
-    glGenBuffers(1, &vboVerticesJanelaVidro);
-    glBindBuffer(GL_ARRAY_BUFFER, vboVerticesJanelaVidro);
-    glBufferData(GL_ARRAY_BUFFER, verticesJanelaVidro.size()*sizeof(QVector4D), verticesJanelaVidro.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,0, nullptr);
-    glEnableVertexAttribArray(0);
+    std::vector<QVector4D> verticesJanelaVidro = createCircle(posx + largura/2, posy - (altura/4),largura/3, largura/2 );
+    createPositionVBO(vaoJanelaVidro, vboVerticesJanelaVidro, verticesJanelaVidro);//
 
-    glGenVertexArrays(1, &vaoJanelaBorda);
-    glBindVertexArray(vaoJanelaBorda);
+    std::vector<QVector4D> verticesJanelaBorda = createCircle(posx + largura/2, posy - (altura/4),largura/2.5f, largura/1.65f );
+    createPositionVBO(vaoJanelaBorda, vboVerticesJanelaBorda, verticesJanelaBorda);
 
-    std::vector<QVector4D> verticesJanelaBorda;
-    verticesJanelaBorda.resize(steps);
-    for(unsigned int  i{0}; i < steps; i++){
-        float os[2] = {posx + largura/2, posy - (altura/4)};
-        float r[2] = {largura/2.5, largura/1.65};
-        verticesJanelaBorda[i] = QVector4D(os[0] + r[0]*sin(i*(M_PI/180)),
-                os[1] + r[1]*cos(i*(M_PI/180)), 0, 1);
-    }
-
-    glGenBuffers(1, &vboVerticesJanelaBorda);
-    glBindBuffer(GL_ARRAY_BUFFER, vboVerticesJanelaBorda);
-    glBufferData(GL_ARRAY_BUFFER, verticesJanelaBorda.size()*sizeof(QVector4D), verticesJanelaBorda.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,0, nullptr);
-    glEnableVertexAttribArray(0);
 
     ///////////////FLAP CENTRO//////////////////////////////////////
-    glGenVertexArrays(1, &vaoFlapCentro);
-    glBindVertexArray(vaoFlapCentro);
-
-    std::vector<QVector4D> verticesFlapCentro;
-    verticesFlapCentro.resize(steps);
-    for(unsigned int  i{0}; i < steps; i++){
-        float os[2] = {posx + largura/2, posy - altura + (altura/14)};
-        float r[2] = {largura/11, altura/4.8};
-        verticesFlapCentro[i] = QVector4D(os[0] + r[0]*sin(i*(M_PI/180)),
-                os[1] + r[1]*cos(i*(M_PI/180)), 0, 1);
-    }
-
-
-
-    glGenBuffers(1, &vboVerticesFlapCentro);
-    glBindBuffer(GL_ARRAY_BUFFER, vboVerticesFlapCentro);
-    glBufferData(GL_ARRAY_BUFFER, verticesFlapCentro.size()*sizeof(QVector4D), verticesFlapCentro.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,0, nullptr);
-    glEnableVertexAttribArray(0);
+    std::vector<QVector4D> verticesFlapCentro = createCircle(posx + largura/2, posy - altura + (altura/14), largura/11, altura/4.8f );
+    createPositionVBO(vaoFlapCentro, vboVerticesFlapCentro, verticesFlapCentro);
 
     /////////////DRWANING THE SUN//////////////////////////////////
-    glGenVertexArrays(1, &vaoSun);
-    glBindVertexArray(vaoSun);
+    std::vector<QVector4D> verticesSun = createCircle(0.6, 0.65, 0.24, 0.32 );
+    createPositionVBO(vaoSun, vboVerticesSun, verticesSun);
 
-    std::vector<QVector4D> verticesSun;
-    verticesSun.resize(steps);
-    for(unsigned int  i{0}; i < steps; i++){
-        float os[2] = {0.6, 0.65};
-        float r[2] = {0.24, 0.32};
-        verticesSun[i] = QVector4D(os[0] + r[0]*sin(i*(M_PI/180)),
-                os[1] + r[1]*cos(i*(M_PI/180)), 0, 1);
-    }
+    /////////////moon///////
+    std::vector<QVector4D> verticesMoon = createCircle(0.7f, 0.62, 0.12, 0.18 );
+    createPositionVBO(vaoMoon, vboVerticesMoon, verticesMoon);
 
-    glGenBuffers(1, &vboVerticesSun);
-    glBindBuffer(GL_ARRAY_BUFFER, vboVerticesSun);
-    glBufferData(GL_ARRAY_BUFFER, verticesSun.size()*sizeof(QVector4D), verticesSun.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,0, nullptr);
-    glEnableVertexAttribArray(0);
-
-    /////////////DRWANING THE Moon//////////////////////////////////
-    /*glGenVertexArrays(1, &vaoMoon);
-    glBindVertexArray(vaoMoon);
-
-    std::vector<QVector4D> verticesMoon;
-    verticesMoon.resize(steps);
-    for(unsigned int  i{0}; i < steps; i++){
-        float os[2] = {0.7, 0.62};
-        float r[2] = {0.12, 0.18};
-        verticesMoon[i] = QVector4D(os[0] + r[0]*sin(i*(M_PI/180)),
-                os[1] + r[1]*cos(i*(M_PI/180)), 0, 1);
-    }
-
-
-    glGenBuffers(1, &vboVerticesMoon);
-    glBindBuffer(GL_ARRAY_BUFFER, vboVerticesMoon);
-    glBufferData(GL_ARRAY_BUFFER, verticesMoon.size()*sizeof(QVector4D), verticesMoon.data(), GL_STATIC_DRAW);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,0, nullptr);
-    glEnableVertexAttribArray(0);*/
 }
 
 void OpenGLWidget::destroyVBOs()

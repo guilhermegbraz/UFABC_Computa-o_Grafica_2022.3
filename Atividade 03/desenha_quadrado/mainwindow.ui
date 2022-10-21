@@ -30,7 +30,7 @@
       <x>10</x>
       <y>530</y>
       <width>155</width>
-      <height>24</height>
+      <height>22</height>
      </rect>
     </property>
     <property name="orientation">
@@ -38,20 +38,8 @@
     </property>
     <widget class="QCheckBox" name="checkBoxDarkMode">
      <property name="text">
-      <string>Dark Mode</string>
+      <string>Day/Night</string>
      </property>
-    </widget>
-    <widget class="QComboBox" name="comboBoxDayNight">
-     <item>
-      <property name="text">
-       <string>dia</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>noite</string>
-      </property>
-     </item>
     </widget>
    </widget>
   </widget>
@@ -93,22 +81,6 @@
     <hint type="destinationlabel">
      <x>345</x>
      <y>276</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>comboBoxDayNight</sender>
-   <signal>activated(int)</signal>
-   <receiver>openGLWidget</receiver>
-   <slot>changeDayNight(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>134</x>
-     <y>562</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>285</y>
     </hint>
    </hints>
   </connection>

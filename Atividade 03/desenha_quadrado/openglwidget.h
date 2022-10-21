@@ -23,16 +23,29 @@ private:
 public:
     explicit OpenGLWidget(QWidget *parent = nullptr);
 
-    void drawnSolidRectangle();
     void drawnSun();
     void drawnMoon();
     void drawnGround();
     void drawnFlaps();
     void drawnWindow();
+    void createVBOs();
+    void createShaders();
+
+ std::vector<QVector4D> createCircle(float, float, float, float);
+    void destroyVBOs();
+    void destroyShaders();
+
+    float backgroundColor[3];
+
+    void DrawnRocket(GLuint & , GLuint &, GLuint &, GLuint &);
+    void createPositionVBO(GLuint & , GLuint &, std::vector<QVector4D>);
 
     GLuint vboVerticesRectangle{0};
+    GLuint vboColorsRectangle{0};
     GLuint eboIndicesRectangle{0};
     GLuint vaoRectangle{0};
+
+
 
     GLuint vboVerticesFlap1{0};
     GLuint eboIndicesFlap1{0};
@@ -71,21 +84,21 @@ public:
 
     GLuint shaderProgram{0};
 
-    void createVBOs();
-    void createShaders();
 
-    void destroyVBOs();
-    void destroyShaders();
+    float posx{-0.8f};
+    float posy{0.3f};
 
-    float backgroundColor[3];
+    float largura{0.15f};
+    float altura{0.95};
 
-
+    std::vector<QVector4D> vertices;
+    std::vector<GLuint> indices;
 
 signals:
 
 public slots:
     void toggleDarkMode(bool);
-    void changeDayNight(int);
+
 
 protected:
    void initializeGL();
