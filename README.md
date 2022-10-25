@@ -13,7 +13,6 @@ https://user-images.githubusercontent.com/84741834/197807530-27d5d04f-feb6-461e-
 <p> Na atividade 03 o desafio foi criar um cenário 2D, utilizando OpenGL + QT framework, composto por formas geométricas simples e que possibilitasse
 alterar alguma propriedade do cenário</p>
  
- https://user-images.githubusercontent.com/84741834/197805967-7ddd7461-117f-4a7e-a90d-8f37c6fa4c01.mp4
-
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/84741834/197809580-9a0d047c-645f-44ae-a33d-2fe55577cd8c.gif)
 
   
