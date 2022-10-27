@@ -1,0 +1,42 @@
+Atividade Avaliativa de Computação Gráfica
+Atividade 04 - 
+Jogo New Super Hit the Score World
+
+Prof. João Paulo Gois
+Data de entrega: verificar no Moodle
+Instruções: 
+Entregar a atividade digitalizada exclusivamente através do Moodle
+Enviar o projeto Qt completo compactado (arquivos .h, .cpp, .ui .glsl .pro resources)
+Enviar uma resenha (uma página) explicando sua aplicação 
+Na resenha, explicar detalhes da alteração do código
+Comentar dificuldades e idéias
+Atividades entregues por outros meios serão desconsideradas.
+Atividades plagiadas terão nota zero. 
+Em caso de dúvidas sobre as atividades, ou suspeita de plágio, uma reunião entre o discente e o docente será agendada  para eventuais esclarecimentos
+Não é permitido usar o pipeline fixo do OPENGL
+Deve-se utilizar exclusivamente a versão core 4.0 (Windows/Linux) ou core 4.1 (Mac)
+
+Atividade:
+
+A partir do exemplo do código do jogo Hit the Target, fazer um programa em Qt/OpenGL/GLSL versão 4.0 core que tome como inspiração, ou base, o jogo apresentado. Os objetos devem ser construídos utilizando dados armazenados em VAOs/VBOs/EBOs. 
+Por exemplo, criar um novo jogo com pelo menos 4 dos seguintes aprimoramentos:
+Fazer 2 tipos de tiros
+Fazer tiros com velocidades e formatos distintos
+Quando acertar, piscar o fundo da tela, como se fosse uma explosão
+Mudar a geometria dos inimigos (outro VAO)
+Aplicar um tiro parabólico, ou em formato de senóide
+Fazer tiros com rastro
+Fazer o inimigo atirar também
+Fazer o inimigo rebater o tiro, a partir de determinadas condições (escudo refletor) 
+Fazer tiros não horizontais e com reflexão nas fronteiras
+Implementar movimentações mais complexas do que apenas a horizontal
+Outras sugestões...
+
+Caso queira criar um novo jogo totalmente, seguem sugestões: 
+Break out        Enduro
+
+
+
+
+
+                      Pong        Asteroids 
