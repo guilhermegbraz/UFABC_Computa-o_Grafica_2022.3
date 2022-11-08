@@ -7,6 +7,7 @@
 #include <QString>
 #include <QFile>
 #include <QTextStream>
+#include <QMatrix4x4>
 
 class Model
 {
@@ -38,6 +39,8 @@ public:
     std::vector<QString> fragmentShaderFile ={":/shaders/fzdepth.glsl"};
 
     std::vector<unsigned> shaderProgram;
+
+        QMatrix4x4 modelMatrix;
 
 signals:
     void statusBarMessage(QString);

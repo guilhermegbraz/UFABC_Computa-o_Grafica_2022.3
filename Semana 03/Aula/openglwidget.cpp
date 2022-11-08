@@ -147,15 +147,15 @@ void OpenGLWidget::createVBOs()
     colors.resize(4);
     indices.resize(6);
 
-    vertices[0] = QVector4D(-1, -1 , 0, 1);
-    vertices[1] = QVector4D( 1, -1 , 0, 1);
-    vertices[2] = QVector4D( 1, -0.5 , 0, 1);
-    vertices[3] = QVector4D(-1, -0.5 , 0, 1);
+    vertices[0] = QVector4D(-0.5, 0.5 , 0, 1);
+    vertices[1] = QVector4D( 0.5, 0.5 , 0, 1);
+    vertices[2] = QVector4D( 0.5, -0.5 , 0, 1);
+    vertices[3] = QVector4D(-0.5, -0.5 , 0, 1);
     // Create colors for the vertices
-    colors[0] = QVector4D(0.2, 0 , 0, 1); // Red
-    colors[1] = QVector4D(0.2, 0, 0, 1); // Green
-    colors[2] = QVector4D(0.6, 0, 0, 1); // Blue
-    colors[3] = QVector4D(0.6, 0, 0, 1); // Yellow
+    colors[0] = QVector4D(1, 0 , 0, 1); // Red
+    colors[1] = QVector4D(0, 1, 0, 1); // Green
+    colors[2] = QVector4D(0, 0, 1, 1); // Blue
+    colors[3] = QVector4D(0.6, 0.6, 0, 1); // Yellow
     // Topology of the mesh ( square )
     indices[0] = 0; indices[1] = 1; indices[2] = 2;
     indices[3] = 2; indices[4] = 3; indices[5] = 0;

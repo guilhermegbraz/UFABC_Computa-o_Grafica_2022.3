@@ -45,6 +45,8 @@ public:
     GLuint eboIndicesRectangle{0};
     GLuint vaoRectangle{0};
 
+    float playerPosYOffset{0}; // deslocamento do player do eixo Y
+    float playerPosY{0};
 
 
     GLuint vboVerticesFlap1{0};

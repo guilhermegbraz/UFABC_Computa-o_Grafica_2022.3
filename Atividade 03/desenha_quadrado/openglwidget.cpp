@@ -42,12 +42,13 @@ void OpenGLWidget::paintGL()
 #endif
       glClear(GL_COLOR_BUFFER_BIT);
 
-      if(isNight){
+      /*if(isNight){
           drawnMoon();
       } else{
             drawnSun();
-      }
-     drawnGround();
+      }*/
+     //drawnGround();
+
      DrawnRocket(vaoRectangle, vboVerticesRectangle, vboColorsRectangle, eboIndicesRectangle);
      drawnFlaps();
      drawnWindow();
@@ -121,10 +122,17 @@ void OpenGLWidget::DrawnRocket(GLuint & vao, GLuint & vbo, GLuint & vboColors, G
 
     makeCurrent();
     glUseProgram(shaderProgram);
+    GLint locScaling{glGetUniformLocation(shaderProgram, "scaling")};
+    GLint locTranslation{glGetUniformLocation(shaderProgram, "translation")};
+
     auto locSolidColor{glGetUniformLocation(shaderProgram, "solid_color")};
     glUniform1i(locSolidColor, 0);
 
     glBindVertexArray(vaoRectangle);
+
+    glUniform4f(locTranslation, -0.6f, playerPosY, 0, 0);
+    glUniform1f(locScaling, 0.3f);
+
     glDrawArrays(GL_POLYGON,0, 6);
 }
 
@@ -188,13 +196,15 @@ void OpenGLWidget :: drawnFlaps() {
     glUseProgram(shaderProgram);
 
     auto locColor{glGetUniformLocation(shaderProgram, "vColor")};
-    glUniform4f(locColor, 0.927, 0.001, 0.002, 1);
+    glUniform4f(locColor, 0.7416, 0.0008, 0.0016, 1);
 
     auto locSolidColor{glGetUniformLocation(shaderProgram, "solid_color")};
     glUniform1i(locSolidColor, 1);
 
     glBindVertexArray(vaoFlap1);
     glDrawArrays(GL_POLYGON,0, 3);
+
+    glUniform4f(locColor, 0.927, 0.001, 0.002, 1);
 
     glBindVertexArray(vaoFlap2);
     glDrawArrays(GL_TRIANGLE_FAN,0, 3);
@@ -207,16 +217,6 @@ void OpenGLWidget :: drawnFlaps() {
 }
 
 
-void OpenGLWidget:: drawnSun(){
-    makeCurrent();
-    glUseProgram(shaderProgram);
-    auto locColor{glGetUniformLocation(shaderProgram, "vColor")};
-    glUniform4f(locColor, 0.976, 0.843, 0.110, 1);
-    auto locSolidColor{glGetUniformLocation(shaderProgram, "solid_color")};
-    glUniform1i(locSolidColor, 1);
-    glBindVertexArray(vaoSun);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, steps);
-}
 
 void OpenGLWidget:: drawnWindow(){
 
@@ -242,24 +242,6 @@ void OpenGLWidget:: drawnWindow(){
     glDrawArrays(GL_TRIANGLE_FAN, 0, steps);
 }
 
-
-void OpenGLWidget:: drawnMoon(){
-
-    makeCurrent();
-    glUseProgram(shaderProgram);
-
-    auto locColor{glGetUniformLocation(shaderProgram, "vColor")};
-    glUniform4f(locColor, 0.976, 0.943, 1, 1);
-
-    auto locSolidColor{glGetUniformLocation(shaderProgram, "solid_color")};
-    glUniform1i(locSolidColor, 1);
-
-
-    glBindVertexArray(vaoMoon);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, steps);
-}
-
-
 std::vector<QVector4D> OpenGLWidget:: createCircle(float posX, float posY, float raioX, float raioY){
     std::vector<QVector4D> verticesCircle;
     verticesCircle.resize(steps);
@@ -282,6 +264,36 @@ void OpenGLWidget:: createPositionVBO(GLuint & vao, GLuint & vbo, std::vector<QV
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE,0, nullptr);
     glEnableVertexAttribArray(0);
 }
+
+void OpenGLWidget:: drawnSun(){
+    makeCurrent();
+    glUseProgram(shaderProgram);
+    auto locColor{glGetUniformLocation(shaderProgram, "vColor")};
+    glUniform4f(locColor, 0.976, 0.843, 0.110, 1);
+    auto locSolidColor{glGetUniformLocation(shaderProgram, "solid_color")};
+    glUniform1i(locSolidColor, 1);
+    glBindVertexArray(vaoSun);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, steps);
+}
+
+void OpenGLWidget:: drawnMoon(){
+
+    makeCurrent();
+    glUseProgram(shaderProgram);
+
+    auto locColor{glGetUniformLocation(shaderProgram, "vColor")};
+    glUniform4f(locColor, 0.976, 0.943, 1, 1);
+
+    auto locSolidColor{glGetUniformLocation(shaderProgram, "solid_color")};
+    glUniform1i(locSolidColor, 1);
+
+
+    glBindVertexArray(vaoMoon);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, steps);
+}
+
+
+
 
 void OpenGLWidget:: createVBOs() {
     makeCurrent();
