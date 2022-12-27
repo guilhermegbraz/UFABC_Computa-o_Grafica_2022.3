@@ -1,6 +1,16 @@
 # UFABC_Computa-o_Grafica_2022.3
 Repositório para desenvolvimento da disciplina de Computação Gráfica na UFABC
 
+| :placard: Vitrine.Dev |     |
+| -------------  | --- |
+| :sparkles: Nome        | **Curso Comp Grafica UFABC-202.3**
+| :label: Tecnologias | QT Creator, C++
+| :rocket: URL         | https://github.com/guilhermegbraz/Api-VollMed](https://github.com/guilhermegbraz/UFABC_Computa-o_Grafica_2022.3
+| :fire: Desafio     | Desenvolver um jogo 2d, e implementar efeitos de textura e iluminação em um 3D Viwer
+
+<!-- Inserir imagem com a #vitrinedev ao final do link -->
+![Imgur](#vitrinedev)
+
 ## Atividades:
 
 #### 1. Atividade 02:
