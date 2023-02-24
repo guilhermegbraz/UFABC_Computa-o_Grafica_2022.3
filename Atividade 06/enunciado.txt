@@ -1,0 +1,19 @@
+Atividade Avaliativa de Computação Gráfica
+Atividade 06 - Iluminação,  Sombreamento, Animação de Texturas
+
+Instruções: 
+Entregar exclusivamente através do Moodle o projeto Qt completo (.pro, .h. .cpp, .glsl), compactados em um único arquivo (.zip, .rar, .tar.gz)
+Atividades entregues por outros meios serão desconsideradas.
+Atividades plagiadas terão nota zero. 
+Em caso de dúvidas sobre as atividades, ou suspeita de plágio, uma reunião entre o discente e o docente será agendada  para eventuais esclarecimentos
+
+
+Atividade:
+
+Incluir mais quatro shader programs, na aplicação 3D Viewer, disponível na Nona Semana, com as seguintes características:
+Rendering normal com Phong Shading: Neste rendering é esperado que o Phong shading utilize a cor difusa oriunda do normal shading. Isto é, devemos substituir a cor difusa do material pela cor definida pelo normal shading no Phong shading (se não entendeu, me procure :-) ). (NOVO - VÍDEO COM EXEMPLO)
+Toon Shading: Neste rendering, implementar pelo menos um efeito de Toon Shading. A idéia central do Toon Shading está em definir faixas de tons (valores) para a componente difusa, em vez do modelo de tonalização contínuo do Phong Shading (veja figura abaixo).  Existem diversas formas de se implementar. A mais intuitiva é utilizar condicionais para definir os tons. Uma outra forma, que evita condicionais pode ser encontrada no livro: https://www.packtpub.com/product/opengl-4-shading-language-cookbook-second-edition/9781782167020, Cap. 3. Os códigos estão disponíveis gratuitamente em: https://github.com/daw42/glslcookbook/tree/master/chapter03
+Wireframe sobre a superfície sólida (NOVO - VÍDEO COM DICA)
+A Terra é redonda: faça uma animação do planeta Terra, com nuvens girando em volta do planeta em velocidade distinta à rotação da Terra  (como no vídeo). 
+Implementar um  Spotlight (conforme visto em sala), ativado via checkbox. (NOVO - VÍDEO COM EXEMPLO)
+			
