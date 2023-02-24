@@ -1,0 +1,21 @@
+Atividade Avaliativa de Computação Gráfica
+Atividade 03 - Desenhando uma Paisagem 2D
+
+Instruções: 
+Entregar a atividade exclusivamente através do Moodle
+Enviar o projeto Qt completo compactado (arquivos .h, .cpp, .ui .glsl .pro resources).
+Atividades entregues por outros meios serão desconsideradas.
+Atividades plagiadas terão nota zero. 
+Em caso de dúvidas sobre as atividades, ou suspeita de plágio, uma reunião entre o discente e o docente será agendada  para eventuais esclarecimentos
+Não é permitido usar o pipeline fixo do OPENGL
+Deve-se utilizar exclusivamente a versão core 4.0 (Windows/Linux) ou core 4.1 (Mac)
+
+Atividade:
+
+A partir do exemplo do código do quadrado, fazer um programa em Qt/OpenGL/GLSL versão 4.0 core que tenha objetos compondo um cenário de uma paisagem (veja a imagem). Os objetos devem ser construídos utilizando dados armazenados em VAOs/VBOs/EBOs. Considerar também:
+Pelo menos 3 VAOs (casa, nuvem, sol, etc);
+Um checkbox que altere parte da paisagem (por ex, dia/noite, ou sol/chuva)
+Crie quantos buffers forem necessários.
+Pode conter animação
+Neste vídeo apresento algumas dicas: 
+
